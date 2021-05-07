@@ -124,8 +124,9 @@ const createCardInfo = profile  => {
 
   card.classList.add('card');
   username.classList.add('username');
-
   url.setAttribute('href', profile.url);
+  console.log(profile.avatar_url)
+  avatar.setAttribute('src', profile.avatar_url)
 
   const hydrated = hydrater(profile, htmlCollection);
   const appended = appender(htmlCollection);
