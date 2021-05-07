@@ -1,8 +1,25 @@
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
-    https://api.github.com/users/<your name>
+    
 */
+
+// upper case functions are public and considered componenets or dispatch fns
+// lower case functions are private so type checking is not needed with proper discipline
+
+const handleSubmit = async () => {
+  await axios({
+    method: 'get',
+    url: 'https://api.github.com/users/KirkLincoln',
+  })
+  .then((response) => {
+    User(response.data);
+  })
+  .catch((error) => {
+    console.log(error)
+  }); 
+}
+handleSubmit();
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -49,6 +66,86 @@ const followersArray = [];
       </div>
     </div>
 */
+const User = profile => {
+  console.log(profile);
+  const card = document.createElement('div').classList.add('card');
+  const avatar = document.createElement('img').setAttribute('src', profile.avatar_url);
+  const card_info = createCardInfo(profile);
+
+
+}
+
+const CardInfo = profile => createCardInfo(profile);
+const createCardInfo = profile  => {
+  const card = createElement('div');
+  const cardInfo = createElement('div');
+  const avatar = createElement('img');
+  const name = createElement('h3');
+  const username = createElement('p');
+  const location = createElement('p');
+  const urlFrame = createElement('p');
+  const url = createElement('a');
+  const following = createElement('p');
+  const followers = createElement('p');
+  const bio = createElement('p');
+  const htmlCollection = {
+    cardInfo,
+    name, 
+    username,
+    location,
+    urlFrame,
+    url,
+    following,
+    followers,
+    bio
+  };
+
+  card.classList.add('card');
+  cardInfo.classList.add('card-info');
+  username.classList.add('username');
+
+  url.setAttribute('href', profile.url);
+
+  const hydrated = hydrater(profile, htmlCollection);
+  const appended = appender(htmlCollection);
+
+  card.append(avatar);
+ 
+}
+
+const createElement = el => document.createElement(el);
+
+const hydrater = (profile, htmlCollection) => {
+  const html = htmlCollection;
+  
+  html.username.innerHTML = profile.login;
+  html.name.innerHTML = profile.name === null ? "unknown" : profile.login;
+  html.location.innerHTML = profile.location;
+  html.url.innerHTML = "Github";
+  html.urlFrame.innerHTML = `Profile: ${profile.html_url}`;
+  html.followers.innerHTML = `Followers: ${profile.followers}`;
+  html.following.innerHTML = `Following: ${profile.following}`;
+  html.bio.innerHTML = `Bio: ${profile.bio}`;
+  
+  const appended = appender(html)
+  console.log(appended);
+  return appended;
+}
+
+const appender = htmlCollection => {
+  const html = htmlCollection;
+  const keys = Object.keys(htmlCollection);
+  const container = htmlCollection.cardInfo;
+  console.log(keys)
+  console.log(html)
+
+  for(let i = 1; i < keys.length; i++) {
+    console.log(html[keys[i]])
+    html[container].append(html[keys[i]].outerHTML);
+  }
+
+  console.log(html.cardInfo)
+}
 
 /*
   List of LS Instructors Github username's:
