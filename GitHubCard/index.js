@@ -45,7 +45,31 @@ handleSubmit();
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  `GoesToEleven`,
+  `Kelta-King`,
+  `mathieudutour`,
+  `client-engineering-bot`,
+  `ryanmcdermott`
+];
+
+const fetcher = async username => {
+  await axios({
+    method: 'get',
+    url: `https://api.github.com/users/${username}`,
+  })
+  .then((response) => {
+    User(response.data)
+  })
+  .catch((error) => {
+    console.log(error)
+  }); 
+}
+
+const Followers = usernames => {
+  return usernames.forEach(follower => fetcher(follower));
+}
+Followers(followersArray);
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
