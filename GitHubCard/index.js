@@ -78,7 +78,6 @@ const User = profile => {
 const CardInfo = profile => createCardInfo(profile);
 const createCardInfo = profile  => {
   const card = createElement('div');
-  const cardInfo = createElement('div');
   const avatar = createElement('img');
   const name = createElement('h3');
   const username = createElement('p');
@@ -89,7 +88,6 @@ const createCardInfo = profile  => {
   const followers = createElement('p');
   const bio = createElement('p');
   const htmlCollection = {
-    cardInfo,
     name, 
     username,
     location,
@@ -101,15 +99,18 @@ const createCardInfo = profile  => {
   };
 
   card.classList.add('card');
-  cardInfo.classList.add('card-info');
   username.classList.add('username');
 
   url.setAttribute('href', profile.url);
 
   const hydrated = hydrater(profile, htmlCollection);
   const appended = appender(htmlCollection);
-
+  console.log(appended)
   card.append(avatar);
+  card.append(appended);
+  document.querySelector('.cards').append(card);
+  console.log(card);
+  return card;
  
 }
 
@@ -133,18 +134,22 @@ const hydrater = (profile, htmlCollection) => {
 }
 
 const appender = htmlCollection => {
+  const cardInfo = createElement('div');
   const html = htmlCollection;
   const keys = Object.keys(htmlCollection);
   const container = htmlCollection.cardInfo;
   console.log(keys)
   console.log(html)
 
+  cardInfo.classList.add('card-info')
+
   for(let i = 1; i < keys.length; i++) {
     console.log(html[keys[i]])
-    html[container].append(html[keys[i]].outerHTML);
+    cardInfo.append(html[keys[i]]);
   }
 
   console.log(html.cardInfo)
+  return cardInfo;
 }
 
 /*
